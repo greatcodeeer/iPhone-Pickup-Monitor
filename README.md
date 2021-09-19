@@ -8,8 +8,11 @@ MacOS, Windows, Linux
 ### 运行环境
 Python 3
 ### 使用方法
-
-安装依赖库
+拉取代码
+`git clone https://github.com/greatcodeeer/iPhone-Pickup-Monitor.git`
+<br/>进入目录
+`cd iPhone-Pickup-Monitor`
+<br/>安装依赖
 `pip install -r requirements.txt`
 
 运行
