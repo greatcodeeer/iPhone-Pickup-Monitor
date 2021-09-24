@@ -10,8 +10,10 @@ Python 3
 ### 使用方法
 拉取代码
 git clone https://github.com/greatcodeeer/iPhone-Pickup-Monitor.git
+
 进入目录
 cd iPhone-Pickup-Monitor
+
 安装依赖
 pip install -r requirements.txt
 
