@@ -12,9 +12,7 @@ def bbs(s):
 
 input('欢迎使用iPhone取货预约助手，请合理使用工具\n正在检查环境：\n即将播放预约提示音，按任意键开始...')
 sound_alarm = './alarm.mp3'
-for i in range(2):
-    playsound(sound_alarm)
-    time.sleep(1)
+playsound(sound_alarm)
 
 print('配置特定型号')
 # Config State
@@ -23,11 +21,13 @@ url_param = ['state', 'city', 'district']
 config_param = []
 dic_param = {}
 lst_choice_param = []
+print('--------------------------------')
 for index, item in enumerate(type_phone):
     print('[{}] {}'.format(index, item))
 input_type = int(input('选择型号：'))
 choice_type = list(type_phone)[input_type]
 
+print('--------------------------------')
 for index, (key, value) in enumerate(type_phone[choice_type].items()):
     print('[{}] {}'.format(index, value))
 input_size = int(input('选择尺寸/颜色：'))
@@ -53,6 +53,7 @@ for step, param in enumerate(url_param):
     result_param = result_body[param]
     if type(result_param) is dict:
         result_data = result_param['data']
+        print('--------------------------------')
         for index, item in enumerate(result_data):
             print('[{}] {}'.format(index, item['value']))
         input_index = int(input('请选择序号：'))
@@ -80,18 +81,23 @@ while True:
         res_json = json.loads(res_text)
         stores = res_json['body']['content']['pickupMessage']['stores']
         is_available = False
+        lst_available = []
+        print('--------------------------------')
         for item in stores:
             storeName = item['storeName']
             pickupSearchQuote = item['partsAvailability'][code_iphone]['pickupSearchQuote']
             bbs('{} - {}'.format(storeName, pickupSearchQuote))
-            if pickupSearchQuote != '暂无供应':
+            if pickupSearchQuote == '今天可取货':
                 is_available = True
-                if not is_alarm_on:
-                    is_alarm_on = True
-                    # Display while iPhone is available
-                    print('预约链接：\nhttps://www.apple.com.cn/shop/buy-iphone/iphone-13-pro/{}/'.format(code_iphone))
-                playsound(sound_alarm)
-                break
+                lst_available.append(storeName)
+
+        if len(lst_available) > 0:
+            if not is_alarm_on:
+                is_alarm_on = True
+                # Display while iPhone is available
+                print('以下直营店预约可用：\n{}\nhttps://www.apple.com.cn/shop/buy-iphone'.format(','.join(lst_available)))
+            playsound(sound_alarm)
+
         if not is_available:
             is_alarm_on = False
 
